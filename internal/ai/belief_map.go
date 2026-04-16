@@ -1,8 +1,11 @@
 package ai
 
 import (
+	"math"
+
 	"github.com/satokae/submarine-go/internal/constant"
 	"github.com/satokae/submarine-go/internal/core"
+	"github.com/satokae/submarine-go/internal/util"
 )
 
 type BeliefMap struct {
@@ -127,4 +130,18 @@ func (m *BeliefMap) UpdateOnMove(direction core.Direction, distance int, sunkPos
 	}
 
 	m.grid = newGrid
+}
+
+func (m *BeliefMap) CalculateEntropy() float64 {
+	entropy := 0.0
+	for _, p := range m.grid {
+		val := util.Clamp(p, 0, 1)
+
+		if val > 0 && val < 1 {
+			e := -val*math.Log2(val) - (1.0-val)*math.Log2(1.0-val)
+			entropy += e
+		}
+
+	}
+	return entropy
 }
