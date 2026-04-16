@@ -145,3 +145,13 @@ func (m *BeliefMap) CalculateEntropy() float64 {
 	}
 	return entropy
 }
+
+func (m *BeliefMap) Copy() *BeliefMap {
+	newGrid := make([]float64, len(m.grid))
+	copy(newGrid, m.grid)
+	return &BeliefMap{
+		grid:           newGrid,
+		submarinesLeft: m.submarinesLeft,
+		size:           m.size,
+	}
+}
