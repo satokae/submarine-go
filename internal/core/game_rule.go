@@ -34,3 +34,30 @@ func GetValidMoveDestination(move MoveAction, targetSub Submarine, friendlyFleet
 
 	return finalPos, true
 }
+
+func IsAttackPossible(attack AttackAction, friendlyFleet Fleet) bool {
+	activeFriendlyFleet := Fleet{}
+	for _, sub := range friendlyFleet {
+		if sub.HP > 0 {
+			activeFriendlyFleet = append(activeFriendlyFleet, sub)
+		}
+	}
+
+	for _, sub := range activeFriendlyFleet {
+		if sub.Position == attack.Position {
+			return false
+		}
+	}
+
+	neighbors := GetNeighbors(attack.Position)
+
+	for _, n := range neighbors {
+		for _, sub := range activeFriendlyFleet {
+			if sub.Position == n {
+				return true
+			}
+		}
+	}
+
+	return false
+}
