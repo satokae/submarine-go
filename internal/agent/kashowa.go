@@ -8,6 +8,8 @@ import (
 	"github.com/satokae/submarine-go/internal/core"
 )
 
+var _ ai.Agent = (*KashiwaAgent)(nil)
+
 const minCoverageThreshold = 21
 
 type KashiwaAgent struct {
