@@ -79,7 +79,7 @@ func (m *BeliefMap) CalculateEntropy() float64 {
 	for _, p := range m.grid {
 		val := util.Clamp(p, 0, 1)
 
-		if val > 0 && val < 1 {
+		if 0 < val && val < 1 {
 			e := -val*math.Log2(val) - (1.0-val)*math.Log2(1.0-val)
 			entropy += e
 		}
