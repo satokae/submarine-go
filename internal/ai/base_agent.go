@@ -86,3 +86,24 @@ func (b *BaseAgent) GenerateAllPossibleAttacks() []core.AttackAction {
 
 	return attacks
 }
+
+func (b *BaseAgent) ApplyOutcomeToMap(m *BeliefMap, pos core.Position, outcome core.AttackOutcome) {
+	switch outcome {
+	case core.Hit:
+		m.UpdateOnHit(pos)
+	case core.HitAndSunk:
+		m.UpdateOnSunk(pos)
+	case core.HighWaves:
+		m.UpdateOnNear(pos)
+	case core.Miss:
+		m.UpdateOnMiss(pos)
+	}
+}
+
+func (b *BaseAgent) ApplyActionToMap(m *BeliefMap, action core.Action) {
+	if action.Type == core.ActionTypeMove {
+		m.UpdateOnMove(action.MoveAction.Direction, action.MoveAction.Distance, b.SunkPositions)
+	} else {
+		m.UpdateOnNear(action.AttackAction.Position)
+	}
+}
