@@ -23,10 +23,10 @@ func TestPosition_Move(t *testing.T) {
 		{"Valid: Move South", 0, 0, 1, 5, nil},
 		{"Valid: Move Diagonal", 0, 1, 1, 6, nil},
 		{"Valid: Far move", 0, 4, 4, 24, nil},
-		{"Error: North OOB", 2, 0, -1, -1, core.ErrOutOfBounds},
-		{"Error: West OOB", 5, -1, 0, -1, core.ErrOutOfBounds},
-		{"Error: East OOB", 4, 1, 0, -1, core.ErrOutOfBounds},
-		{"Error: South OOB", 20, 0, 5, -1, core.ErrOutOfBounds},
+		{"Error: North OOB", 2, 0, -1, 0, core.ErrOutOfBounds},
+		{"Error: West OOB", 5, -1, 0, 0, core.ErrOutOfBounds},
+		{"Error: East OOB", 4, 1, 0, 0, core.ErrOutOfBounds},
+		{"Error: South OOB", 20, 0, 5, 0, core.ErrOutOfBounds},
 	}
 
 	for _, tt := range tests {

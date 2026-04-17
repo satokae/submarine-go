@@ -17,7 +17,7 @@ func (pos Position) Move(dx int, dy int) (Position, error) {
 	x += dx
 	y += dy
 	if x < 0 || x >= constant.MapSize || y < 0 || y >= constant.MapSize {
-		return -1, (ErrOutOfBounds)
+		return 0, (ErrOutOfBounds)
 	}
 	return Position(y*constant.MapSize + x), nil
 }
