@@ -61,5 +61,11 @@ func (m *BeliefMap) UpdateOnMove(direction core.Direction, distance int, sunkPos
 }
 
 func (m *BeliefMap) UpdateOnMiss(pos core.Position) {
+	neighbors := core.GetNeighbors(pos)
+	m.grid[pos] = 0.0
 
+	for _, n := range neighbors {
+		m.grid[n] = 0.0
+	}
+	m.normalize()
 }
