@@ -107,3 +107,36 @@ func (b *BaseAgent) ApplyActionToMap(m *BeliefMap, action core.Action) {
 		m.UpdateOnNear(action.AttackAction.Position)
 	}
 }
+
+func (b *BaseAgent) OnAttackResult(pos core.Position, outcome core.AttackOutcome) {
+	b.ApplyOutcomeToMap(b.OffenseMap, pos, outcome)
+
+	if outcome == core.Hit {
+		b.EnemyHPSum--
+	}
+
+	if outcome == core.HitAndSunk {
+		b.EnemyHPSum--
+		b.SunkPositions = append(b.SunkPositions, pos)
+	}
+}
+
+func (b *BaseAgent) OnDefenseResult(pos core.Position, outcome core.AttackOutcome) {
+	b.ApplyOutcomeToMap(b.DefenseMap, pos, outcome)
+	b.WasHitLastTurn = (outcome == core.Hit)
+
+	if outcome == core.Hit || outcome == core.HitAndSunk {
+		for i := range b.FriendlyFleet {
+			if b.FriendlyFleet[i].Position == pos {
+				b.FriendlyFleet[i].HP--
+				if outcome == core.HitAndSunk {
+					b.SunkPositions = append(b.SunkPositions, pos)
+				}
+				break
+			}
+		}
+	}
+}
+
+func (b *BaseAgent) OnOwnAction(action core.Action)   {}
+func (b *BaseAgent) OnEnemyAction(action core.Action) {}
