@@ -12,7 +12,7 @@ type Agent interface {
 	OnDefenseResult(pos core.Position, outcome core.AttackOutcome)
 	OnOwnAction(action core.Action)
 	OnEnemyAction(action core.Action)
-	Fleet() core.Fleet
+	AvailableFleet() core.Fleet
 	OwnHPSum() int
 }
 
