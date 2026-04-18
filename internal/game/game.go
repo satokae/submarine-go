@@ -38,6 +38,7 @@ func (g *Game) Start() error {
 		}
 		if g.AIAgent.OwnHPSum() <= 0 {
 			fmt.Printf("%s の潜水艦が全て撃沈されました\n", g.AIAgent.AgentName())
+			break
 		}
 
 		if g.IsPlayerTurn {
