@@ -61,3 +61,49 @@ func IsAttackPossible(attack AttackAction, friendlyFleet Fleet) bool {
 
 	return false
 }
+
+func ResolveAttack(attack AttackAction, defendingFleet Fleet) (AttackOutcome, Fleet) {
+	newFleet := make(Fleet, len(defendingFleet))
+	copy(newFleet, defendingFleet)
+	hitIndex := -1
+
+	for i, sub := range newFleet {
+		if sub.HP > 0 && sub.Position == attack.Position {
+			hitIndex = i
+			break
+		}
+	}
+
+	if hitIndex != -1 {
+		newFleet[hitIndex].HP--
+		if newFleet[hitIndex].HP <= 0 {
+			return HitAndSunk, newFleet
+		}
+		return Hit, newFleet
+	}
+
+	neighbors := GetNeighbors(attack.Position)
+	isNear := false
+
+	for _, sub := range defendingFleet {
+		if sub.HP <= 0 {
+			continue
+		}
+
+		for _, n := range neighbors {
+			if sub.Position == n {
+				isNear = true
+				break
+			}
+		}
+		if isNear {
+			break
+		}
+	}
+
+	if isNear {
+		return HighWaves, newFleet
+	}
+
+	return Miss, newFleet
+}

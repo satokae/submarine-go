@@ -95,3 +95,63 @@ func TestIsAttackPossible(t *testing.T) {
 		})
 	}
 }
+
+func TestResolveAttack(t *testing.T) {
+	fleet := core.Fleet{
+		{ID: 0, Position: 12, HP: 3}, // Center (2,2)
+		{ID: 1, Position: 0, HP: 1},  // Top-left (0,0) - One hit from sinking
+		{ID: 2, Position: 24, HP: 0}, // Bottom-right (4,4) - Already sunk
+	}
+
+	tests := []struct {
+		name        string
+		attack      core.AttackAction
+		wantOutcome core.AttackOutcome
+		wantHP      map[int]int // Map of ID to expected HP
+	}{
+		{
+			name:        "Direct Hit: Survives",
+			attack:      core.AttackAction{Position: 12},
+			wantOutcome: core.Hit,
+			wantHP:      map[int]int{0: 2, 1: 1, 2: 0},
+		},
+		{
+			name:        "Direct Hit: Sinks",
+			attack:      core.AttackAction{Position: 0},
+			wantOutcome: core.HitAndSunk,
+			wantHP:      map[int]int{0: 3, 1: 0, 2: 0},
+		},
+		{
+			name:        "High Waves: Neighbor of active sub",
+			attack:      core.AttackAction{Position: 13},
+			wantOutcome: core.HighWaves,
+			wantHP:      map[int]int{0: 3, 1: 1, 2: 0},
+		},
+		{
+			name:        "Miss: Far from active subs",
+			attack:      core.AttackAction{Position: 10},
+			wantOutcome: core.Miss,
+			wantHP:      map[int]int{0: 3, 1: 1, 2: 0},
+		},
+		{
+			name:        "Miss: Attack on already sunk sub",
+			attack:      core.AttackAction{Position: 24},
+			wantOutcome: core.Miss,
+			wantHP:      map[int]int{0: 3, 1: 1, 2: 0},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotOutcome, gotFleet := core.ResolveAttack(tt.attack, fleet)
+			if gotOutcome != tt.wantOutcome {
+				t.Errorf("%s: gotOutcome = %v, want %v", tt.name, gotOutcome, tt.wantOutcome)
+			}
+			for _, sub := range gotFleet {
+				if sub.HP != tt.wantHP[sub.ID] {
+					t.Errorf("%s: sub %d HP = %d, want %d", tt.name, sub.ID, sub.HP, tt.wantHP[sub.ID])
+				}
+			}
+		})
+	}
+}
