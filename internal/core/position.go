@@ -2,6 +2,7 @@ package core
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/satokae/submarine-go/internal/constant"
 )
@@ -9,6 +10,13 @@ import (
 type Position int
 
 var ErrOutOfBounds = errors.New("position out of bounds")
+
+func (pos Position) String() string {
+	y := int(pos) / constant.MapSize
+	x := int(pos) % constant.MapSize
+
+	return fmt.Sprintf("%c%d", 'A'+y, x+1)
+}
 
 func (pos Position) Move(dx int, dy int) (Position, error) {
 	x := int(pos) % constant.MapSize

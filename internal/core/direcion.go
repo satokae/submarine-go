@@ -9,6 +9,21 @@ const (
 	West
 )
 
+func (d Direction) String() string {
+	switch d {
+	case North:
+		return "North"
+	case South:
+		return "South"
+	case East:
+		return "East"
+	case West:
+		return "West"
+	default:
+		return "Unknown"
+	}
+}
+
 func (d Direction) ToVector() (dx, dy int) {
 	switch d {
 	case North:
