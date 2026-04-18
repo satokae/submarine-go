@@ -37,10 +37,14 @@ func FormatBoard(agent ai.Agent) string {
 	board := generateStatusBoard(sunkPositions, friendlyFleet)
 	var output string
 
-	output += "  1 2 3 4 5 " + symbolSeparator + " Enemy"
-	output += strings.Repeat(" ", numberWidth*(constant.MapSize+2)-6)
+	enemyString, length := formatName("Enemy", agent.GetEnemyHPSum(), agent.GetOffenseMap().SubmarinesLeft())
+	selfString, _ := formatName(name, agent.OwnHPSum(), agent.GetDefenseMap().SubmarinesLeft())
+
+	output += "  1 2 3 4 5 " + symbolSeparator + " "
+	output += enemyString
+	output += strings.Repeat(" ", numberWidth*(constant.MapSize+2)-length-1)
 	output += symbolSeparator + " "
-	output += name
+	output += selfString
 	output += "\n"
 
 	for y := 0; y < constant.MapSize; y++ {
@@ -111,6 +115,12 @@ func generateStatusBoard(sunkPositions []core.Position, friendlyFleet core.Fleet
 		}
 	}
 	return board
+}
+
+func formatName(name string, hp int, subCount int) (string, int) {
+	output := name + color.CyanString(" Left: %d HP: %d", subCount, hp)
+	length := len(fmt.Sprintf("%s Left: %d HP: %d", name, subCount, hp))
+	return output, length
 }
 
 func getRGBForValue(v float64) (int, int, int) {
