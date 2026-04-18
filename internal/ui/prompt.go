@@ -13,16 +13,16 @@ func generateSelectTemplate(name string) *promptui.SelectTemplates {
 		Label:    "{{ . }}",
 		Active:   "> {{ . | cyan }}",
 		Inactive: "  {{ . }}",
-		Selected: "> " + name + ": {{ . }}",
+		Selected: "  > " + name + ": {{ . }}",
 	}
 }
 
 func generateInputTemplate(name string) *promptui.PromptTemplates {
 	return &promptui.PromptTemplates{
 		Prompt:  "{{ . }}",
-		Valid:   `{{ "o" | green }} {{ . }}: `,
-		Invalid: `{{ "x" | red }} {{ . }}: `,
-		Success: "> " + name + ": ",
+		Valid:   `{{ "  o" | green }} {{ . }}: `,
+		Invalid: `{{ "  x" | red }} {{ . }}: `,
+		Success: "  > " + name + ": ",
 	}
 }
 
