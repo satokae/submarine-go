@@ -39,6 +39,10 @@ func (b *BaseAgent) OwnHPSum() int {
 	return sum
 }
 
+func (b *BaseAgent) GetEnemyHPSum() int {
+	return b.EnemyHPSum
+}
+
 func (b *BaseAgent) AvailableFleet() core.Fleet {
 	available := []core.Submarine{}
 	for _, sub := range b.FriendlyFleet {

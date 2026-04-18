@@ -14,6 +14,7 @@ type Agent interface {
 	OnEnemyAction(action core.Action)
 	AvailableFleet() core.Fleet
 	OwnHPSum() int
+	GetEnemyHPSum() int
 	AgentName() string
 	Fleet() core.Fleet
 	GetOffenseMap() *BeliefMap
