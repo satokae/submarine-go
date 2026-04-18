@@ -69,10 +69,10 @@ func PromptAttackOutcome() (core.AttackOutcome, error) {
 		"攻撃結果を入力",
 		"結果",
 		[]selectOption[core.AttackOutcome]{
-			{Label: "命中", Value: core.Hit},
-			{Label: "命中・撃沈", Value: core.HitAndSunk},
-			{Label: "波高し", Value: core.HighWaves},
-			{Label: "ハズレ", Value: core.Miss},
+			{Label: core.Hit.String(), Value: core.Hit},
+			{Label: core.HitAndSunk.String(), Value: core.HitAndSunk},
+			{Label: core.HighWaves.String(), Value: core.HighWaves},
+			{Label: core.Miss.String(), Value: core.Miss},
 		},
 	)
 }
@@ -82,10 +82,10 @@ func PromptMoveDirection() (core.Direction, error) {
 		"移動方向を選択",
 		"方向",
 		[]selectOption[core.Direction]{
-			{Label: "North", Value: core.North},
-			{Label: "South", Value: core.South},
-			{Label: "West", Value: core.West},
-			{Label: "East", Value: core.East},
+			{Label: core.North.String(), Value: core.North},
+			{Label: core.South.String(), Value: core.South},
+			{Label: core.West.String(), Value: core.West},
+			{Label: core.East.String(), Value: core.East},
 		},
 	)
 }
