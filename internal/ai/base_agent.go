@@ -163,3 +163,25 @@ func (b *BaseAgent) OnEnemyAction(action core.Action) {
 	b.WasHitLastTurn = false
 	b.ApplyActionToMap(b.OffenseMap, action)
 }
+
+func (b *BaseAgent) AgentName() string {
+	return b.Name
+}
+
+func (b *BaseAgent) Fleet() core.Fleet {
+	fleet := make(core.Fleet, len(b.FriendlyFleet))
+	copy(fleet, b.FriendlyFleet)
+	return fleet
+}
+
+func (b *BaseAgent) GetOffenseMap() *BeliefMap {
+	return b.OffenseMap
+}
+
+func (b *BaseAgent) GetDefenseMap() *BeliefMap {
+	return b.DefenseMap
+}
+
+func (b *BaseAgent) GetSunkPositions() []core.Position {
+	return b.SunkPositions
+}

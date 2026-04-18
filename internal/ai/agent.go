@@ -14,6 +14,11 @@ type Agent interface {
 	OnEnemyAction(action core.Action)
 	AvailableFleet() core.Fleet
 	OwnHPSum() int
+	AgentName() string
+	Fleet() core.Fleet
+	GetOffenseMap() *BeliefMap
+	GetDefenseMap() *BeliefMap
+	GetSunkPositions() []core.Position
 }
 
 type BaseAgent struct {
