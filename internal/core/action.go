@@ -27,5 +27,6 @@ type AttackAction struct {
 type Action struct {
 	Type         ActionType
 	MoveAction   *MoveAction
+	MoveTarget   *Submarine
 	AttackAction *AttackAction
 }

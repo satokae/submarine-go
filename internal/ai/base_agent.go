@@ -138,5 +138,24 @@ func (b *BaseAgent) OnDefenseResult(pos core.Position, outcome core.AttackOutcom
 	}
 }
 
-func (b *BaseAgent) OnOwnAction(action core.Action)   {}
-func (b *BaseAgent) OnEnemyAction(action core.Action) {}
+func (b *BaseAgent) OnOwnAction(action core.Action) {
+	b.ApplyActionToMap(b.DefenseMap, action)
+
+	if action.Type == core.ActionTypeMove {
+		target := *action.MoveTarget
+		dest, ok := core.GetValidMoveDestination(*action.MoveAction, target, b.FriendlyFleet, b.SunkPositions)
+		if ok {
+			for i := range b.FriendlyFleet {
+				if b.FriendlyFleet[i].ID == target.ID {
+					b.FriendlyFleet[i].Position = dest
+					break
+				}
+			}
+		}
+	}
+}
+
+func (b *BaseAgent) OnEnemyAction(action core.Action) {
+	b.WasHitLastTurn = false
+	b.ApplyActionToMap(b.OffenseMap, action)
+}
