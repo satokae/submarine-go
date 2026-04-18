@@ -27,7 +27,13 @@ const (
 	numberWidth = 5
 )
 
-func FormatBoard(name string, offenseMap ai.BeliefMap, defenseMap ai.BeliefMap, sunkPositions []core.Position, friendlyFleet core.Fleet) string {
+func FormatBoard(agent ai.Agent) string {
+	name := agent.AgentName()
+	sunkPositions := agent.GetSunkPositions()
+	friendlyFleet := agent.Fleet()
+	offenseMap := agent.GetOffenseMap()
+	defenseMap := agent.GetDefenseMap()
+
 	board := generateStatusBoard(sunkPositions, friendlyFleet)
 	var output string
 
