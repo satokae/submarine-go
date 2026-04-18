@@ -49,8 +49,8 @@ func (b *BaseAgent) AvailableFleet() core.Fleet {
 	return available
 }
 
-func (b *BaseAgent) GenerateAllPossibleMoves() []core.MoveAction {
-	moves := []core.MoveAction{}
+func (b *BaseAgent) GenerateAllPossibleMoves() []core.Action {
+	moves := []core.Action{}
 	distances := []int{1, 2}
 	directions := []core.Direction{core.East, core.North, core.South, core.West}
 
@@ -58,12 +58,16 @@ func (b *BaseAgent) GenerateAllPossibleMoves() []core.MoveAction {
 		sub := &b.FriendlyFleet[i]
 		for _, dir := range directions {
 			for _, dist := range distances {
-				move := core.MoveAction{
-					Direction: dir,
-					Distance:  dist,
+				move := core.Action{
+					Type:       core.ActionTypeMove,
+					MoveTarget: sub,
+					MoveAction: &core.MoveAction{
+						Direction: dir,
+						Distance:  dist,
+					},
 				}
 
-				if _, ok := core.GetValidMoveDestination(move, *sub, b.FriendlyFleet, b.SunkPositions); ok {
+				if _, ok := core.GetValidMoveDestination(*move.MoveAction, *sub, b.FriendlyFleet, b.SunkPositions); ok {
 					moves = append(moves, move)
 				}
 			}
