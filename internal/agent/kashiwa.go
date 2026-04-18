@@ -97,7 +97,7 @@ func (k *KashiwaAgent) calculateMoveScore(action core.Action) float64 {
 	if _, ok := core.GetValidMoveDestination(*action.MoveAction, *action.MoveTarget, k.FriendlyFleet, k.SunkPositions); !ok {
 		return math.Inf(-1)
 	}
-	return k.DefenseMap.Grid()[moveFrom]
+	return k.DefenseMap.Grid()[moveFrom] + k.Rng.Float64()*8
 }
 
 func (k *KashiwaAgent) findBestAttack(attacks []core.AttackAction, hasMoves bool) *core.AttackAction {
