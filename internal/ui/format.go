@@ -38,7 +38,7 @@ func FormatBoard(agent ai.Agent) string {
 	var output string
 
 	output += "  1 2 3 4 5 " + symbolSeparator + " Enemy"
-	output += strings.Repeat(" ", numberWidth*(constant.MapSize+2)-5)
+	output += strings.Repeat(" ", numberWidth*(constant.MapSize+2)-6)
 	output += symbolSeparator + " "
 	output += name
 	output += "\n"
@@ -50,22 +50,24 @@ func FormatBoard(agent ai.Agent) string {
 			output += board[0]
 			board = board[1:]
 		}
-		output += " " + symbolSeparator + " "
+		output += " " + symbolSeparator
 
 		indexStart := y * constant.MapSize
 		indexEnd := (y + 1) * constant.MapSize
 
 		for _, val := range offenseMap.Grid()[indexStart:indexEnd] {
+			output += " "
 			colorFunc := getColorFunc(val)
 			output += colorFunc(fmt.Sprintf("%*.*f", numberWidth, numberWidth-2, val))
-			output += "  "
+			output += " "
 		}
 
-		output += symbolSeparator + " "
+		output += symbolSeparator
 		for _, val := range defenseMap.Grid()[indexStart:indexEnd] {
+			output += " "
 			colorFunc := getColorFunc(val)
 			output += colorFunc(fmt.Sprintf("%*.*f", numberWidth, numberWidth-2, val))
-			output += "  "
+			output += " "
 		}
 		output += "\n"
 	}
