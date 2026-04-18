@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/manifoldco/promptui"
+	"github.com/satokae/submarine-go/internal/constant"
 	"github.com/satokae/submarine-go/internal/core"
 )
 
@@ -163,5 +164,5 @@ func PromptAttackPosition() (core.Position, error) {
 
 	y := int(strings.ToUpper(result)[0] - 'A')
 	x := int(result[1] - '1')
-	return core.Position(y*5 + x), nil
+	return core.Position(y*constant.MapSize + x), nil
 }
