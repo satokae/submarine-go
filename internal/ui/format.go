@@ -42,7 +42,7 @@ func FormatBoard(agent ai.Agent) string {
 
 	output += "  1 2 3 4 5 " + symbolSeparator + " "
 	output += enemyString
-	output += strings.Repeat(" ", numberWidth*(constant.MapSize+2)-length-1)
+	output += strings.Repeat(" ", constant.MapSize*(numberWidth+2)-length-1)
 	output += symbolSeparator + " "
 	output += selfString
 	output += "\n"
