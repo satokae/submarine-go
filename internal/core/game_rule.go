@@ -1,17 +1,14 @@
 package core
 
+import "slices"
+
 func isOccupied(pos Position, fleet Fleet, sunkPositions []Position) bool {
 	for _, sub := range fleet {
 		if sub.Position == pos {
 			return true
 		}
 	}
-	for _, sp := range sunkPositions {
-		if sp == pos {
-			return true
-		}
-	}
-	return false
+	return slices.Contains(sunkPositions, pos)
 }
 
 func GetValidMoveDestination(move MoveAction, targetSub Submarine, friendlyFleet Fleet, sunkPositions []Position) (Position, bool) {
@@ -90,11 +87,8 @@ func ResolveAttack(attack AttackAction, defendingFleet Fleet) (AttackOutcome, Fl
 			continue
 		}
 
-		for _, n := range neighbors {
-			if sub.Position == n {
-				isNear = true
-				break
-			}
+		if slices.Contains(neighbors, sub.Position) {
+			isNear = true
 		}
 		if isNear {
 			break

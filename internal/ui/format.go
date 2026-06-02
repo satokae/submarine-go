@@ -35,47 +35,47 @@ func FormatBoard(agent ai.Agent) string {
 	defenseMap := agent.GetDefenseMap()
 
 	board := generateStatusBoard(sunkPositions, friendlyFleet)
-	var output string
+	var output strings.Builder
 
 	enemyString, length := formatName("Enemy", agent.GetEnemyHPSum(), agent.GetOffenseMap().SubmarinesLeft())
 	selfString, _ := formatName(name, agent.OwnHPSum(), agent.GetDefenseMap().SubmarinesLeft())
 
-	output += "  1 2 3 4 5 " + symbolSeparator + " "
-	output += enemyString
-	output += strings.Repeat(" ", constant.MapSize*(numberWidth+2)-length-1)
-	output += symbolSeparator + " "
-	output += selfString
-	output += "\n"
+	output.WriteString("  1 2 3 4 5 " + symbolSeparator + " ")
+	output.WriteString(enemyString)
+	output.WriteString(strings.Repeat(" ", constant.MapSize*(numberWidth+2)-length-1))
+	output.WriteString(symbolSeparator + " ")
+	output.WriteString(selfString)
+	output.WriteString("\n")
 
-	for y := 0; y < constant.MapSize; y++ {
-		output += string('A' + byte(y))
-		for x := 0; x < constant.MapSize; x++ {
-			output += " "
-			output += board[0]
+	for y := range constant.MapSize {
+		output.WriteString(string('A' + byte(y)))
+		for range constant.MapSize {
+			output.WriteString(" ")
+			output.WriteString(board[0])
 			board = board[1:]
 		}
-		output += " " + symbolSeparator
+		output.WriteString(" " + symbolSeparator)
 
 		indexStart := y * constant.MapSize
 		indexEnd := (y + 1) * constant.MapSize
 
 		for _, val := range offenseMap.Grid()[indexStart:indexEnd] {
-			output += " "
+			output.WriteString(" ")
 			colorFunc := getColorFunc(val)
-			output += colorFunc(fmt.Sprintf("%*.*f", numberWidth, numberWidth-2, val))
-			output += " "
+			output.WriteString(colorFunc(fmt.Sprintf("%*.*f", numberWidth, numberWidth-2, val)))
+			output.WriteString(" ")
 		}
 
-		output += symbolSeparator
+		output.WriteString(symbolSeparator)
 		for _, val := range defenseMap.Grid()[indexStart:indexEnd] {
-			output += " "
+			output.WriteString(" ")
 			colorFunc := getColorFunc(val)
-			output += colorFunc(fmt.Sprintf("%*.*f", numberWidth, numberWidth-2, val))
-			output += " "
+			output.WriteString(colorFunc(fmt.Sprintf("%*.*f", numberWidth, numberWidth-2, val)))
+			output.WriteString(" ")
 		}
-		output += "\n"
+		output.WriteString("\n")
 	}
-	return output
+	return output.String()
 }
 
 func generateStatusBoard(sunkPositions []core.Position, friendlyFleet core.Fleet) []string {
@@ -144,7 +144,7 @@ func getRGBForValue(v float64) (int, int, int) {
 	return r, g, b
 }
 
-func getColorFunc(v float64) func(a ...interface{}) string {
+func getColorFunc(v float64) func(a ...any) string {
 	r, g, b := getRGBForValue(v)
 	return color.RGB(r, g, b).SprintFunc()
 }

@@ -83,7 +83,7 @@ func (b *BaseAgent) GenerateAllPossibleMoves() []core.Action {
 func (b *BaseAgent) GenerateAllPossibleAttacks() []core.AttackAction {
 	attacks := []core.AttackAction{}
 
-	for i := 0; i < constant.GridSize; i++ {
+	for i := range constant.GridSize {
 		attack := core.AttackAction{Position: core.Position(i)}
 		if !core.IsAttackPossible(attack, b.FriendlyFleet) {
 			continue

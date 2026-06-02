@@ -2,6 +2,7 @@ package ai
 
 import (
 	"math"
+	"slices"
 
 	"github.com/satokae/submarine-go/internal/core"
 )
@@ -27,12 +28,7 @@ func (m *BeliefMap) UpdateOnMove(direction core.Direction, distance int, sunkPos
 	dx, dy := direction.ToVector()
 
 	isSunk := func(p core.Position) bool {
-		for _, sp := range sunkPositions {
-			if sp == p {
-				return true
-			}
-		}
-		return false
+		return slices.Contains(sunkPositions, p)
 	}
 
 	for i, val := range m.grid {
